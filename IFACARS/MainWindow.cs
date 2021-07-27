@@ -1,5 +1,4 @@
 using System;
-using System.Xml.Serialization;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
@@ -7,8 +6,7 @@ namespace IFACARS
 {
     class MainWindow : Window
     {
-        [UI] private MenuItem _aboutMenuItem = null;
-        [UI] private MenuItem _quitMenuItem = null;
+        [UI] private ModelButton _aboutButton = null;
         
         public MainWindow() : this(new Builder("MainWindow.glade"))
         {
@@ -17,27 +15,16 @@ namespace IFACARS
         private MainWindow(Builder builder) : base(builder.GetRawOwnedObject("MainWindow"))
         {
             builder.Autoconnect(this);
-            
-            _aboutMenuItem.Activated += AboutMenuItem_Activated;
-            _quitMenuItem.Activated += QuitMenuItem_Activated;
-            
-            DeleteEvent += Window_DeleteEvent;
-        }
 
-        private void AboutDialogOnDestroyEvent(object o, DestroyEventArgs args)
-        {
-            
+            _aboutButton.Clicked += AboutMenuItem_Activated;
+
+            DeleteEvent += Window_DeleteEvent;
         }
 
         private void AboutMenuItem_Activated(object? sender, EventArgs e)
         {
             var aboutDialog = new IFACARS.Dialogs.AboutDialog();
             aboutDialog.Show();
-        }
-        
-        private void QuitMenuItem_Activated(object? sender, EventArgs e)
-        {
-            Application.Quit();
         }
 
         private void Window_DeleteEvent(object sender, DeleteEventArgs a)
