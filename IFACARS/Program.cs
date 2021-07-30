@@ -10,13 +10,12 @@ namespace IFACARS
         {
             Application.Init();
 
-            var app = new Application("org.IFACARS.IFACARS", GLib.ApplicationFlags.None);
+            var app = new Application("org.IF-Tools.IFACARS", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
-            var win = new MainWindow();
-            app.AddWindow(win);
+            app.AddWindow(WindowManager.CreateHubWindow());
 
-            win.Show();
+            WindowManager.ShowHubWindow();
             Application.Run();
         }
     }

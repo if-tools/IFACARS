@@ -9,8 +9,6 @@ namespace ConsoleInterface
     {
         static void Main(string[] args)
         {
-            Application.Init();
-            
             var tcpConnector = new TcpConnector();
             
             Console.WriteLine("Found a running instance. State: " + tcpConnector.DiscoverRunningInstances().State);
@@ -23,11 +21,11 @@ namespace ConsoleInterface
             }
             else
             {
-                tcpConnector.StartPlaneStateRefresher();
+                //tcpConnector.StartPlaneStateRefresher();
             }
 
             CurrentFlightState.BindEvents();
-            CurrentFlightState.FlightStateUpdated += OnFlightStateUpdated;
+            //CurrentFlightState.FlightStateUpdated += OnFlightStateUpdated;
 
             Console.ReadLine();
         }

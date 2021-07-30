@@ -104,11 +104,11 @@ Author: Gleb Zhynko
     </child>
   </object>
   <object class="GtkTextBuffer" id="flightLogBuffer"/>
-  <object class="GtkWindow" id="MainWindow">
+  <object class="GtkWindow" id="HubWindow">
     <property name="can-focus">False</property>
     <property name="default-width">900</property>
     <property name="default-height">550</property>
-    <property name="icon">Resources/Icon.svg</property>
+    <property name="icon">Resources/images/Icon.svg</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -127,10 +127,11 @@ Author: Gleb Zhynko
                 <property name="orientation">vertical</property>
                 <property name="spacing">80</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="greetingBox">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">10</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
@@ -153,7 +154,6 @@ Author: Gleb Zhynko
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="margin-top">10</property>
                         <property name="label" translatable="yes">To start a new flight, use the &lt;b&gt;New&lt;/b&gt; button in the top bar.</property>
                         <property name="use-markup">True</property>
                         <property name="justify">center</property>
@@ -179,7 +179,7 @@ Author: Gleb Zhynko
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkBox" id="weatherBox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">center</property>
@@ -189,7 +189,7 @@ Author: Gleb Zhynko
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="pixel-size">120</property>
-                            <property name="icon-name">weather-clear</property>
+                            <property name="icon-name">weather-clear-symbolic</property>
                             <property name="icon_size">3</property>
                           </object>
                           <packing>
@@ -304,7 +304,7 @@ Author: Gleb Zhynko
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">gtk-refresh-symbolic</property>
+                                    <property name="icon-name">view-refresh</property>
                                   </object>
                                 </child>
                               </object>
@@ -323,7 +323,7 @@ Author: Gleb Zhynko
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">gtk-edit-symbolic</property>
+                                    <property name="icon-name">document-properties</property>
                                   </object>
                                 </child>
                               </object>
@@ -353,7 +353,7 @@ Author: Gleb Zhynko
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="valign">end</property>
-                        <property name="pixbuf">Resources/GrayPlane.svg</property>
+                        <property name="pixbuf">Resources/images/GrayPlane.svg</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -385,6 +385,50 @@ Author: Gleb Zhynko
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="interpolate-size">True</property>
+                    <child>
+                      <object class="GtkBox" id="flights_loading">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">15</property>
+                        <child>
+                          <object class="GtkSpinner">
+                            <property name="width-request">32</property>
+                            <property name="height-request">32</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="active">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Loading flights...</property>
+                            <property name="justify">center</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="name">page1</property>
+                        <property name="title" translatable="yes">page1</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkBox" id="flights_main">
                         <property name="visible">True</property>
@@ -813,7 +857,7 @@ Author: Gleb Zhynko
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">False</property>
                                                 <property name="halign">start</property>
-                                                <property name="label">21.2</property>
+                                                <property name="label">21.3.0.1030</property>
                                                 <property name="selectable">True</property>
                                               </object>
                                               <packing>
@@ -981,50 +1025,6 @@ Author: Gleb Zhynko
                       <packing>
                         <property name="name">page2</property>
                         <property name="title" translatable="yes">page2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="flights_loading">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">14</property>
-                        <child>
-                          <object class="GtkSpinner">
-                            <property name="width-request">32</property>
-                            <property name="height-request">32</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="active">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Loading flights...</property>
-                            <property name="justify">center</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="name">page1</property>
-                        <property name="title" translatable="yes">page1</property>
                         <property name="position">1</property>
                       </packing>
                     </child>

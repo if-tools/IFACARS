@@ -1,5 +1,5 @@
 ## IFACARS
-![Icon](IFACARS/Resources/Icon.svg)  
+![Icon](IFACARS/Resources/images/Icon.svg)  
 
 ---
 
@@ -10,5 +10,7 @@ graphical guidance while you fly, like Runway Guidance that displays
 the runway you are on or Glideslope Guidance that displays your airplane
 position on the glideslope.  
 
-IFACARS is currently in its early development stage. Track the progress
-with this Trello board: https://trello.com/b/iurSWioT/development-roadmap.
+IFACARS is currently in its early development stage. I'm keeping 
+[this Trello board](https://trello.com/b/iurSWioT/development-roadmap)
+to better organize the development plans, so if you want to follow
+along, you can track it.

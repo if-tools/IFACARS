@@ -26,5 +26,13 @@
       <ProjectReference Include="..\Connector\Connector.csproj" />
       <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Remove="bin\**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Types" />
+    </ItemGroup>
 
 </Project>

@@ -76,11 +76,10 @@ namespace Connector.ConnectAPI
             foreach (var item in _manifest)
             {
                 // only request those we need
-                if (item.Path.Contains("aircraft/0"))
-                {
+                
                     //Console.WriteLine($"requesting #{item.ID} of type {item.Type} with path {item.Path}");
                     SendGetStateCommand(item.ID);
-                }
+                
             }
         }
         
@@ -94,7 +93,7 @@ namespace Connector.ConnectAPI
 
         private void StartAction(Action action)
         {
-            Task.Run(action, _streamReaderToken.Token);
+            Task.Run(action);
         }
 
         private void StreamReader()
@@ -107,28 +106,27 @@ namespace Connector.ConnectAPI
                 {
                     ReadCommandInStream();
                 }
-                catch(Exception e)
+                catch
                 {
-                    Console.WriteLine("err in StreamReader: " + e);
+                    // ignored
                 }
             }
         }
         
         private void PlaneStateRefresher()
         {
-            while (!_streamReaderToken.Token.IsCancellationRequested)
+            while (!_stateRefresherToken.Token.IsCancellationRequested)
             {
                 try
                 {
                     RefreshNecessaryPlaneStates();
-                    //SendGetStateCommand(541);
                     
                     // only do it every 100 ms
                     Thread.Sleep(500);
                 }
                 catch
                 {
-                    Console.WriteLine("err in Refresher");
+                    // ignored
                 }
             }
         }
@@ -142,8 +140,6 @@ namespace Connector.ConnectAPI
         {
             lock (_tcpLock)
             {
-                //Console.WriteLine("send get stet (" + id + ")");
-
                 SendInt(id);
                 SendBoolean(false);
             }
@@ -170,38 +166,38 @@ namespace Connector.ConnectAPI
                 var stateInfo = ManifestEntryByID[commandID];
                 var state = PlaneStateEntryByID[commandID];
 
-                if (stateInfo.Path.Contains("joystick")) return;
+                //if (stateInfo.Path.Contains("joystick")) return;
                 
                 //Console.WriteLine("read comm 3. statePath = " + stateInfo.Path);
                 
                 if (stateInfo.Type == typeof(bool))
                 {
                     var value = ReadBoolean(); // only double for now
-                    //Console.WriteLine("{0}: {1}", stateInfo.Path, value);
+                    Console.WriteLine("{0}: {1}", stateInfo.Path, value);
                     state.Value = value;
                 }
                 else if (stateInfo.Type == typeof(int))
                 {
                     var value = ReadInt(); // only double for now
-                    //Console.WriteLine("{0}: {1}", stateInfo.Path, value);
+                    Console.WriteLine("{0}: {1}", stateInfo.Path, value);
                     state.Value = value;
                 }
                 else if (stateInfo.Type == typeof(float))
                 {
                     var value = ReadFloat(); // only double for now
-                    //Console.WriteLine("{0}: {1}", stateInfo.Path, value);
+                    Console.WriteLine("{0}: {1}", stateInfo.Path, value);
                     state.Value = value;
                 }
                 else if (stateInfo.Type == typeof(double))
                 {
                     var value = ReadDouble(); // only double for now
-                    //Console.WriteLine("{0}: {1}", stateInfo.Path, value);
+                    Console.WriteLine("{0}: {1}", stateInfo.Path, value);
                     state.Value = value;
                 }
                 else if (stateInfo.Type == typeof(string))
                 {
                     var value = ReadString(); // only double for now
-                    //Console.WriteLine("{0}: {1}", stateInfo.Path, value);
+                    Console.WriteLine("{0}: {1}", stateInfo.Path, value);
                     state.Value = value;
                 }
                 else if (stateInfo.Type == typeof(long))
@@ -246,7 +242,7 @@ namespace Connector.ConnectAPI
 
             ManifestReceived(this, EventArgs.Empty);
             
-            RefreshNecessaryPlaneStates();
+            //RefreshNecessaryPlaneStates();
         }
         
         public static short GetTypeIndex(Type type)
@@ -397,7 +393,7 @@ namespace Connector.ConnectAPI
 
             var size = ReadInt();
             
-            //Console.WriteLine("readString");
+            Console.WriteLine("readString size: " + size);
             
             byte[] data = new byte[size];
             var totalRead = 0;

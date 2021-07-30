@@ -66,13 +66,9 @@ namespace Shared.Types.ConnectAPI
 
                 foreach (var stringAddress in Addresses)
                 {
-                    try
+                    if (IPAddress.TryParse(stringAddress, out var ip))
                     {
-                        list.Add(IPAddress.Parse(stringAddress));
-                    }
-                    catch
-                    {
-                        continue;
+                        list.Add(ip);
                     }
                 }
                 

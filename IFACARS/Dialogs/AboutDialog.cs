@@ -13,7 +13,7 @@ namespace IFACARS.Dialogs
             Comments = "Log, monitor, and store your Infinite Flight flights.";
             LicenseType = Gtk.License.MitX11;
 
-            var icon = new Pixbuf("Resources/Icon.svg");
+            var icon = new Pixbuf("Resources/images/Icon.svg");
             Logo = icon;
             Icon = icon;
         }
